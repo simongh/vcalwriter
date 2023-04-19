@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using vCal.Builders;
 
-namespace iCal
+namespace vCal
 {
     public enum AttendeeRole
     {
@@ -135,7 +135,7 @@ namespace iCal
             }
 
             builder.Value.Add(Email);
-            builder.Write("ATTENDEE", writer);
+            builder.Write(Builders.PropertyNames.Attendee, writer);
         }
     }
 }

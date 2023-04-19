@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace iCal
+namespace vCal
 {
     public class Organiser
     {
@@ -35,7 +35,7 @@ namespace iCal
             }
 
             builder.Value.Add(Email);
-            builder.Write("ORGANIZER", writer);
+            builder.Write(Builders.PropertyNames.Organizer, writer);
         }
     }
 }

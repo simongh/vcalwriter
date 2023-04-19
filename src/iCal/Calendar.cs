@@ -2,11 +2,11 @@
 using System.Collections.Specialized;
 using System.IO;
 
-namespace iCal
+namespace vCal
 {
     public class Calendar
     {
-        public string ProductId { get; set; } = "Simon//iCal";
+        public string ProductId { get; set; } = "Simon//SimplevCal";
 
         public StringCollection Parameters { get; set; } = new();
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace iCal.Builders
+namespace vCal.Builders
 {
     public enum DatePart
     {

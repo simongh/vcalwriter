@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Mime;
 
-namespace iCal
+namespace vCal
 {
     public class Attachment
     {

@@ -1,6 +1,4 @@
-﻿using iCal.Builders;
-
-namespace vCal.Builders
+﻿namespace vCal.Builders
 {
     public class PropertyCollection : System.Collections.ObjectModel.Collection<PropertyBuilder>
     {

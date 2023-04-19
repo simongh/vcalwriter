@@ -1,4 +1,4 @@
-﻿namespace iCal
+﻿namespace vCal
 {
     public struct GeoLocation
     {

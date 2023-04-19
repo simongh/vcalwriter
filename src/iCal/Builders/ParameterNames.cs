@@ -1,4 +1,4 @@
-﻿namespace iCal.Builders
+﻿namespace vCal.Builders
 {
     public static class ParameterNames
     {

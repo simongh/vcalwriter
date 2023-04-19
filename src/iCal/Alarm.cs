@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 
-namespace iCal
+namespace vCal
 {
     public class Alarm
     {
@@ -11,7 +11,7 @@ namespace iCal
 
         public string? Description { get; set; }
 
-        public Repeat? Repeat { get; set; }
+        public RecurrenceRule? Repeat { get; set; }
 
         public DateTimeOffset Trigger { get; set; }
 

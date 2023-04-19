@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using vCal.Builders;
 
-namespace iCal.Builders
+namespace vCal.Builders
 {
     public class PropertyBuilder
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iCal
+namespace vCal
 {
     internal static class Extensions
     {

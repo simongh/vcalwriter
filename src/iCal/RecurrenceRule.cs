@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace iCal
+namespace vCal
 {
     public enum RecurrenceFrequency
     {
@@ -42,7 +42,7 @@ namespace iCal
         {
             var builder = new Builders.PropertyBuilder
             {
-                Name = "RRULE",
+                Name = Builders.PropertyNames.RecurrenceRule,
             };
 
             builder.Parameters.Add(new Builders.ParameterBuilder

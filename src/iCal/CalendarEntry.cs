@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using vCal.Builders;
 
-namespace iCal
+namespace vCal
 {
     public enum Classification
     {
@@ -22,7 +21,9 @@ namespace iCal
 
     public class CalendarEntry
     {
-        public PropertyCollection Properties { get; set; } = new();
+        private int? _priority;
+
+        public Builders.PropertyCollection Properties { get; set; } = new();
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
@@ -42,7 +43,18 @@ namespace iCal
         public DateTimeOffset? LastModified { get; set; }
         public string? Location { get; set; }
         public Organiser? Organiser { get; set; }
-        public int? Priority { get; set; }
+
+        public int? Priority
+        {
+            get => _priority;
+            set
+            {
+                if (value.HasValue && (value < 0 || value > 9))
+                    throw new ArgumentOutOfRangeException(nameof(value), "Priority must be greater than 0 and less than 9");
+                _priority = value;
+            }
+        }
+
         public int? Sequence { get; set; }
         public EventStatus? Status { get; set; }
         public string? Summary { get; set; }
@@ -76,29 +88,29 @@ namespace iCal
             var builder = new Builders.PropertyBuilder();
 
             builder.Value.Add(TimeStamp);
-            builder.Write("DTSTAMP", writer);
+            builder.Write(Builders.PropertyNames.DateTimeStamp, writer);
 
             builder.Value.Add(Id);
-            builder.Write("UID", writer);
+            builder.Write(Builders.PropertyNames.UniqueIdentifier, writer);
 
             builder.Value.Add(StartsAt, datePart: AllDay ? Builders.DatePart.DateTime : Builders.DatePart.DateTime);
-            builder.Write("DTSTART", writer);
+            builder.Write(Builders.PropertyNames.DateTimeStart, writer);
 
             if (Classification.HasValue)
             {
                 builder.Value.Add(Classification.Value.ToVCalString());
-                builder.Write("CLASS", writer);
+                builder.Write(Builders.PropertyNames.Classification, writer);
             }
 
             if (Created.HasValue)
             {
                 builder.Value.Add(Created.Value);
-                builder.Write("CREATED", writer);
+                builder.Write(Builders.PropertyNames.DateTimeCreated, writer);
             }
             if (!string.IsNullOrEmpty(Description))
             {
                 builder.Value.Add(Description!);
-                builder.Write("DESCRIPTION", writer);
+                builder.Write(Builders.PropertyNames.Description, writer);
             }
 
             if (GeoLocation.HasValue)
@@ -110,19 +122,19 @@ namespace iCal
                         new Builders.ParameterBuilder().Add(GeoLocation.Value.Latitude),
                         new Builders.ParameterBuilder().Add(GeoLocation.Value.Longitude)
                     }
-                }.Write("GEO", writer);
+                }.Write(Builders.PropertyNames.GeographicPosition, writer);
             }
 
             if (LastModified.HasValue)
             {
                 builder.Value.Add(LastModified.Value);
-                builder.Write("LAST-MODIFIED", writer);
+                builder.Write(Builders.PropertyNames.LastModified, writer);
             }
 
             if (!string.IsNullOrEmpty(Location))
             {
                 builder.Value.Add(Location);
-                builder.Write("LOCATION", writer);
+                builder.Write(Builders.PropertyNames.Location, writer);
             }
 
             if (Organiser != null)
@@ -133,37 +145,37 @@ namespace iCal
             if (Priority.HasValue)
             {
                 builder.Value.Add(Priority.Value);
-                builder.Write("PRIORITY", writer);
+                builder.Write(Builders.PropertyNames.Priority, writer);
             }
 
             if (Sequence.HasValue)
             {
                 builder.Value.Add(Sequence.Value);
-                builder.Write("SEQUENCE", writer);
+                builder.Write(Builders.PropertyNames.SequenceNumber, writer);
             }
 
             if (Status.HasValue)
             {
                 builder.Value.Add(Status.Value.ToVCalString());
-                builder.Write("STATUS", writer);
+                builder.Write(Builders.PropertyNames.Status, writer);
             }
 
             if (!string.IsNullOrEmpty(Summary))
             {
                 builder.Value.Add(Summary);
-                builder.Write("SUMMARY", writer);
+                builder.Write(Builders.PropertyNames.Summary, writer);
             }
 
             if (Transparency.HasValue)
             {
                 builder.Value.Add(Transparency.Value ? "TRANSPARENT" : "OPAQUE");
-                builder.Write("TRANSP", writer);
+                builder.Write(Builders.PropertyNames.TimeTransparency, writer);
             }
 
             if (Url != null)
             {
                 builder.Value.Add(Url);
-                builder.Write("URL", writer);
+                builder.Write(Builders.PropertyNames.Url, writer);
             }
 
             //recurid
@@ -176,12 +188,12 @@ namespace iCal
             if (EndsAt.HasValue)
             {
                 builder.Value.Add(EndsAt.Value, datePart: AllDay ? Builders.DatePart.DateTime : Builders.DatePart.DateTime);
-                builder.Write("DTEND", writer);
+                builder.Write(Builders.PropertyNames.DateTimeEnd, writer);
             }
             else if (Duration.HasValue)
             {
                 builder.Value.Add(Duration.Value);
-                builder.Write("DURATION", writer);
+                builder.Write(Builders.PropertyNames.Duration, writer);
             }
 
             //attach
@@ -197,38 +209,38 @@ namespace iCal
             if (Categories?.Any() == true)
             {
                 builder.Value.Add(Categories);
-                builder.Write("CATEGORIES", writer);
+                builder.Write(Builders.PropertyNames.Categories, writer);
             }
 
             if (!string.IsNullOrEmpty(Contact))
             {
                 builder.Value.Add(Contact);
-                builder.Write("CONTACT", writer);
+                builder.Write(Builders.PropertyNames.Contact, writer);
             }
 
             if (Exclusions?.Any() == true)
             {
                 builder.Value.Add(Exclusions.Select(v => v.ToVCalString()));
-                builder.Write("EXDATE", writer);
+                builder.Write(Builders.PropertyNames.ExceptionDateTimes, writer);
             }
             //rstatus
 
             if (!string.IsNullOrEmpty(RelatedTo))
             {
                 builder.Value.Add(RelatedTo);
-                builder.Write("RELATED-TO", writer);
+                builder.Write(Builders.PropertyNames.RelatedTo, writer);
             }
 
             if (Resources?.Any() == true)
             {
                 builder.Value.Add(Resources);
-                builder.Write("RESOURCES", writer);
+                builder.Write(Builders.PropertyNames.Resources, writer);
             }
 
             if (Repeats?.Any() == true)
             {
                 builder.Value.Add(Repeats.Select(r => r.ToVCalString()));
-                builder.Write("RDATE", writer);
+                builder.Write(Builders.PropertyNames.RecurrenceDateTimes, writer);
             }
 
             if (Properties?.Any() == true)
