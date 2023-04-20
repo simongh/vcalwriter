@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using vCal.Builders;
+﻿using vCalWriter.Builders;
 
-namespace vCal
+namespace vCalWriter
 {
     public enum AttendeeRole
     {

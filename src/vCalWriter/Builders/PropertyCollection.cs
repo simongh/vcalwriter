@@ -1,4 +1,4 @@
-﻿namespace vCal.Builders
+﻿namespace vCalWriter.Builders
 {
     public class PropertyCollection : System.Collections.ObjectModel.Collection<PropertyBuilder>
     {

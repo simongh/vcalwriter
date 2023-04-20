@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace vCal.Builders
+namespace vCalWriter.Builders
 {
     public enum DatePart
     {

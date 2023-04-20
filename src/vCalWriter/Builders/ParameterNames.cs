@@ -1,4 +1,4 @@
-﻿namespace vCal.Builders
+﻿namespace vCalWriter.Builders
 {
     public static class ParameterNames
     {

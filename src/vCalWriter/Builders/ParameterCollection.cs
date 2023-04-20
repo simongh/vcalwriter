@@ -1,4 +1,4 @@
-﻿namespace vCal.Builders
+﻿namespace vCalWriter.Builders
 {
     public class ParameterCollection : System.Collections.ObjectModel.Collection<ParameterBuilder>
     {

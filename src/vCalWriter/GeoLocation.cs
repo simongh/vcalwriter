@@ -1,4 +1,4 @@
-﻿namespace vCal
+﻿namespace vCalWriter
 {
     public struct GeoLocation
     {

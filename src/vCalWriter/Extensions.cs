@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace vCal
+﻿namespace vCalWriter
 {
     internal static class Extensions
     {
@@ -41,10 +39,15 @@ namespace vCal
             if (value.TotalMilliseconds < 0)
                 result += "-";
 
+            result += "P";
+
             if (value.Days != 0)
                 result += value.Days.ToString("dD");
 
-            return result + value.ToString("hhHmmMssS");
+            return result + value.ToString("'T'h'H'm'M's'S'");
         }
+
+        public static string ToVCalString(this AlarmType value)
+            => value.ToString().ToUpper();
     }
 }

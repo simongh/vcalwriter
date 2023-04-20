@@ -1,4 +1,4 @@
-﻿namespace vCal.Builders
+﻿namespace vCalWriter.Builders
 {
     public static class PropertyNames
     {
@@ -45,7 +45,7 @@
 
         public const string Action = "ACTION";
         public const string Repeat = "REPEAT";
-        public const string Triger = "TRIGGER";
+        public const string Trigger = "TRIGGER";
 
         public const string DateTimeCreated = "DTCREATED";
         public const string DateTimeStamp = "DTSTAMP";

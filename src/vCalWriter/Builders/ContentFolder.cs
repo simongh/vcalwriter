@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace vCal.Builders
+namespace vCalWriter.Builders
 {
     public static class ContentFolder
     {

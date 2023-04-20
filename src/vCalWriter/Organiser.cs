@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace vCal
+﻿namespace vCalWriter
 {
     public class Organiser
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace vCal
+﻿namespace vCalWriter
 {
     public enum Classification
     {
@@ -196,7 +191,13 @@ namespace vCal
                 builder.Write(Builders.PropertyNames.Duration, writer);
             }
 
-            //attach
+            if (Attachments != null)
+            {
+                foreach (var item in Attachments)
+                {
+                    item.Write(writer);
+                }
+            }
 
             if (Attendees != null)
             {

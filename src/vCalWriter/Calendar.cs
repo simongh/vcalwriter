@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
+﻿using System.Collections.Specialized;
 
-namespace vCal
+namespace vCalWriter
 {
     public class Calendar
     {
@@ -11,6 +9,8 @@ namespace vCal
         public StringCollection Parameters { get; set; } = new();
 
         public ICollection<CalendarEntry> Entries { get; set; } = new List<CalendarEntry>();
+
+        public ICollection<Alarm> Alarms { get; set; } = new List<Alarm>();
 
         public void Write(StringWriter writer)
         {
@@ -30,6 +30,14 @@ namespace vCal
             if (Entries != null)
             {
                 foreach (var item in Entries)
+                {
+                    item.Write(writer);
+                }
+            }
+
+            if (Alarms != null)
+            {
+                foreach (var item in Alarms)
                 {
                     item.Write(writer);
                 }
