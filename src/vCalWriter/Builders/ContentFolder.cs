@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace vCalWriter.Builders
+﻿namespace vCalWriter.Builders
 {
     public static class ContentFolder
     {
@@ -18,7 +16,7 @@ namespace vCalWriter.Builders
             return writer.ToString();
         }
 
-        private static void Fold(StringWriter writer, string value)
+        private static void Fold(TextWriter writer, string value)
         {
             if (value.Length < 74)
             {
@@ -29,6 +27,18 @@ namespace vCalWriter.Builders
             writer.WriteLine(value.Substring(0, 74));
             writer.Write(' ');
             Fold(value.Substring(74));
+        }
+
+        public static void Fold(Stream data, Stream output)
+        {
+            using var reader = new StreamReader(data);
+            using var writer = new StreamWriter(output);
+
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                Fold(writer, line);
+            }
         }
     }
 }

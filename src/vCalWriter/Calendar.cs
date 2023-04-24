@@ -4,7 +4,7 @@ namespace vCalWriter
 {
     public class Calendar
     {
-        public string ProductId { get; set; } = "Simon//SimplevCal";
+        public string ProductId { get; set; } = "Simon//vCalWriter";
 
         public StringCollection Parameters { get; set; } = new();
 
@@ -44,6 +44,26 @@ namespace vCalWriter
             }
 
             writer.Write("END:VCALENDAR");
+        }
+
+        public void Write(Stream stream)
+        {
+            using var ms = new MemoryStream();
+            using var writer = new StreamWriter(ms);
+
+            Write(writer);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            Builders.ContentFolder.Fold(ms, stream);
+        }
+
+        public string Write()
+        {
+            using var writer = new StringWriter();
+            Write(writer);
+
+            return Builders.ContentFolder.Fold(writer.ToString());
         }
     }
 }
