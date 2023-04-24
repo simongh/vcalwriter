@@ -33,7 +33,7 @@
 
         public DayOfWeek? StartOfWeek { get; set; }
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             var builder = new Builders.PropertyBuilder
             {

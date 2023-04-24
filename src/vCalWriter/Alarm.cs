@@ -11,14 +11,6 @@
     {
         public Builders.PropertyCollection Properties { get; set; } = new();
 
-        public Attachment? AudioAttachment { get; set; }
-
-        public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
-
-        public string? Description { get; set; }
-
-        public string? Summary { get; set; }
-
         public DateTimeOffset Trigger { get; set; }
 
         public AlarmType AlarmType { get; set; }
@@ -27,9 +19,10 @@
 
         public int? Repeat { get; set; }
 
-        public ICollection<Attendee> Attendees { get; set; } = new List<Attendee>();
+        protected virtual void InnerWrite(TextWriter writer)
+        { }
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VALARM");
 
@@ -41,33 +34,7 @@
             builder.Value.Add(Trigger);
             builder.Write(Builders.PropertyNames.Trigger, writer);
 
-            if (AlarmType == AlarmType.Display || AlarmType == AlarmType.Email)
-            {
-                builder.Value.Add(Description);
-                builder.Write(Builders.PropertyNames.Description, writer);
-            }
-
-            if (AlarmType == AlarmType.Email)
-            {
-                if (Attendees != null)
-                {
-                    foreach (var item in Attendees)
-                    {
-                        item.Write(writer);
-                    }
-                }
-
-                builder.Value.Add(Summary);
-                builder.Write(Builders.PropertyNames.Summary, writer);
-
-                if (Attachments != null)
-                {
-                    foreach (var item in Attachments)
-                    {
-                        item.Write(writer);
-                    }
-                }
-            }
+            InnerWrite(writer);
 
             if (Duration.HasValue)
             {
@@ -79,11 +46,6 @@
             {
                 builder.Value.Add(Repeat.Value);
                 builder.Write(Builders.PropertyNames.Repeat, writer);
-            }
-
-            if (AlarmType == AlarmType.Audio && AudioAttachment != null)
-            {
-                AudioAttachment.Write(writer);
             }
 
             if (Properties != null)

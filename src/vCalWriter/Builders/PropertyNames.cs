@@ -4,7 +4,7 @@
     {
         public const string Version = "VERSION";
 
-        public const string Attachment = "ATTACHMENT";
+        public const string Attachment = "ATTACH";
         public const string Categories = "CATEGORIES";
         public const string Classification = "CLASSIFICATION";
         public const string Comment = "COMMENT";

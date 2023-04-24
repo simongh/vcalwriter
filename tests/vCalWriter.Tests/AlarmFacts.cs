@@ -13,11 +13,23 @@ namespace vCalWriter.Tests
         }
 
         [Fact]
+        public void NameTest()
+        {
+            var alarm = new Alarm();
+
+            var value = ToString(alarm);
+
+            value.Should()
+                .StartWith("BEGIN:VALARM")
+                .And.EndWith("END:VALARM\r\n");
+        }
+
+        [Fact]
         public void AudioAttachmentTest()
         {
-            var item = new Alarm
+            var item = new AudioAlarm
             {
-                AudioAttachment = new()
+                Attachment = new()
                 {
                     Url = new Uri("http://value.int"),
                 },
@@ -25,13 +37,13 @@ namespace vCalWriter.Tests
 
             var value = ToString(item);
 
-            value.Should().Contain("ATTACHMENT:\"http://value.int/\"\r\n");
+            value.Should().Contain("ATTACH:http://value.int/\r\n");
         }
 
         [Fact]
         public void DescriptionTest()
         {
-            var item = new Alarm
+            var item = new DisplayAlarm
             {
                 Description = "text",
                 AlarmType = AlarmType.Email,
@@ -45,7 +57,7 @@ namespace vCalWriter.Tests
         [Fact]
         public void SummaryTest()
         {
-            var item = new Alarm
+            var item = new EmailAlarm
             {
                 AlarmType = AlarmType.Email,
                 Summary = "text",
@@ -98,9 +110,8 @@ namespace vCalWriter.Tests
         [Fact]
         public void SingleAttendeeTest()
         {
-            var item = new Alarm
+            var item = new EmailAlarm
             {
-                AlarmType = AlarmType.Email,
                 Attendees = new[]
                 {
                     new Attendee
@@ -118,9 +129,8 @@ namespace vCalWriter.Tests
         [Fact]
         public void MultipleAttendeeTest()
         {
-            var item = new Alarm
+            var item = new EmailAlarm
             {
-                AlarmType = AlarmType.Email,
                 Attendees = new[]
                 {
                     new Attendee
@@ -140,39 +150,24 @@ namespace vCalWriter.Tests
             value.Should().Contain("ATTENDEE:two@domain.int\r\n");
         }
 
-        private Alarm TestAlarm => new Alarm
+        private void SetCommon(Alarm alarm)
         {
-            AlarmType = AlarmType.Audio,
-            Attendees = new[]
-                {
-                    new Attendee
-                    {
-                        Email = "email",
-                    },
-                },
-            Attachments = new[]
-                {
-                    new Attachment
-                    {
-                        Data = new byte[] {0x0},
-                    },
-                },
-            AudioAttachment = new()
-            {
-                Data = new byte[] { 0x0 },
-            },
-            Description = "text",
-            Summary = "text",
-            Duration = TimeSpan.FromMinutes(10),
-            Repeat = 3,
-            Trigger = DateTimeOffset.Now,
-        };
+            alarm.Duration = TimeSpan.FromMinutes(10);
+            alarm.Repeat = 3;
+            alarm.Trigger = DateTimeOffset.Now;
+        }
 
         [Fact]
         public void AudioAlarmTest()
         {
-            var item = TestAlarm;
-            item.AlarmType = AlarmType.Audio;
+            var item = new AudioAlarm
+            {
+                Attachment = new()
+                {
+                    Data = new byte[] { 0x0 },
+                },
+            };
+            SetCommon(item);
 
             var value = ToString(item);
 
@@ -182,7 +177,7 @@ namespace vCalWriter.Tests
                 .And.NotContain("ATTENDEE");
 
             value.Should()
-                .Contain("ATTACHMENT")
+                .Contain("ATTACH")
                 .And.Contain("TRIGGER")
                 .And.Contain("ACTION")
                 .And.Contain("DURATION")
@@ -192,14 +187,17 @@ namespace vCalWriter.Tests
         [Fact]
         public void DisplayAlarmTest()
         {
-            var item = TestAlarm;
-            item.AlarmType = AlarmType.Display;
+            var item = new DisplayAlarm
+            {
+                Description = "text",
+            };
+            SetCommon(item);
 
             var value = ToString(item);
 
             value.Should()
                 .NotContain("SUMMARY")
-                .And.NotContain("ATTACHMENT")
+                .And.NotContain("ATTACH")
                 .And.NotContain("ATTENDEE");
 
             value.Should()
@@ -213,14 +211,32 @@ namespace vCalWriter.Tests
         [Fact]
         public void EmailAlarmTest()
         {
-            var item = TestAlarm;
-            item.AlarmType = AlarmType.Email;
+            var item = new EmailAlarm
+            {
+                Attendees = new[]
+                {
+                    new Attendee
+                    {
+                        Email = "email",
+                    },
+                },
+                Attachments = new[]
+                {
+                    new Attachment
+                    {
+                        Data = new byte[] {0x0},
+                    },
+                },
+                Description = "text",
+                Summary = "text",
+            };
+            SetCommon(item);
 
             var value = ToString(item);
 
             value.Should()
                 .Contain("SUMMARY")
-                .And.Contain("ATTACHMENT")
+                .And.Contain("ATTACH")
                 .And.Contain("ATTENDEE")
                 .And.Contain("DESCRIPTION")
                 .And.Contain("TRIGGER")

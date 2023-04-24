@@ -76,7 +76,7 @@
 
         public ICollection<DateTimeOffset> Repeats { get; set; } = new List<DateTimeOffset>();
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VEVENT");
 
@@ -246,9 +246,9 @@
 
             if (Properties?.Any() == true)
             {
-                foreach (var parameter in Properties)
+                foreach (var item in Properties)
                 {
-                    parameter.Write(writer);
+                    item.Write(writer);
                 }
             }
 

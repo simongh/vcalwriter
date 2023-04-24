@@ -12,7 +12,7 @@ namespace vCalWriter
 
         public ICollection<Alarm> Alarms { get; set; } = new List<Alarm>();
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VCALENDAR");
             writer.WriteLine("PRODID:");

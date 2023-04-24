@@ -49,7 +49,7 @@ namespace vCalWriter
 
         public ParameterCollection Parameters { get; set; } = new();
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             var builder = new Builders.PropertyBuilder();
 

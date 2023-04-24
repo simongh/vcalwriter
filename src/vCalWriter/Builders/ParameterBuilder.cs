@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace vCalWriter.Builders
+﻿namespace vCalWriter.Builders
 {
     public enum DatePart
     {
@@ -120,7 +116,7 @@ namespace vCalWriter.Builders
             _value = null;
         }
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             if (!string.IsNullOrEmpty(Name))
             {

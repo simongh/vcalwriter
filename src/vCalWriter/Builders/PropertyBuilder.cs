@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace vCalWriter.Builders
+﻿namespace vCalWriter.Builders
 {
     public class PropertyBuilder
     {
@@ -10,13 +8,13 @@ namespace vCalWriter.Builders
 
         public ParameterCollection Parameters { get; set; } = new();
 
-        internal void Write(string name, StringWriter writer)
+        internal void Write(string name, TextWriter writer)
         {
             Name = name;
             Write(writer);
         }
 
-        public void Write(StringWriter writer)
+        public void Write(TextWriter writer)
         {
             if (string.IsNullOrEmpty(Name))
             {
@@ -27,7 +25,7 @@ namespace vCalWriter.Builders
             WriteValue(writer);
         }
 
-        private void WriteValue(StringWriter writer)
+        private void WriteValue(TextWriter writer)
         {
             if (Parameters != null)
             {
