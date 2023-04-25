@@ -10,6 +10,7 @@
     public class ParameterBuilder
     {
         private string? _value;
+        private ParameterCollection? _values;
 
         public string? Name { get; set; }
 
@@ -111,9 +112,17 @@
             return this;
         }
 
+        public ParameterBuilder Add(ParameterCollection values)
+        {
+            _values = values;
+
+            return this;
+        }
+
         public void Clear()
         {
             _value = null;
+            _values = null;
         }
 
         public void Write(TextWriter writer)
@@ -124,10 +133,10 @@
                 writer.Write('=');
             }
 
-            if (_value == null)
-                return;
-
-            writer.Write(_value);
+            if (_value != null)
+                writer.Write(_value);
+            else if (_values != null)
+                _values.Write(writer);
         }
 
         public override string ToString()

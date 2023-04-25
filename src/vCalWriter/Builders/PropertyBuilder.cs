@@ -22,25 +22,15 @@
             }
 
             writer.Write(Name);
-            WriteValue(writer);
-        }
-
-        private void WriteValue(TextWriter writer)
-        {
-            if (Parameters != null)
+            if (Parameters?.Any() == true)
             {
-                foreach (var param in Parameters)
-                {
-                    writer.Write(";");
-                    param.Write(writer);
-                }
+                writer.Write(';');
+                Parameters.Write(writer);
             }
 
             writer.Write(':');
-            if (Value != null)
-            {
-                Value.Write(writer);
-            }
+            Value?.Write(writer);
+
             writer.WriteLine();
         }
 

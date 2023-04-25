@@ -6,7 +6,7 @@
 
         public AudioAlarm()
         {
-            AlarmType = AlarmType.Audio;
+            AlarmType = vCalWriter.AlarmType.Audio;
         }
 
         protected override void InnerWrite(TextWriter writer)

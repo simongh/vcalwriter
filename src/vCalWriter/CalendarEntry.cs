@@ -26,6 +26,9 @@
 
         public DateTimeOffset StartsAt { get; set; }
 
+        /// <summary>
+        /// Sets whether the start and end should include a time element
+        /// </summary>
         public bool AllDay { get; set; }
 
         public Classification? Classification { get; set; }
@@ -39,6 +42,9 @@
         public string? Location { get; set; }
         public Organiser? Organiser { get; set; }
 
+        /// <summary>
+        /// Sets the priority. Valid values are 1-9
+        /// </summary>
         public int? Priority
         {
             get => _priority;
@@ -110,14 +116,13 @@
 
             if (GeoLocation.HasValue)
             {
-                new Builders.PropertyBuilder
+                builder.Value.Clear();
+                builder.Value.Add(new Builders.ParameterCollection
                 {
-                    Parameters = new()
-                    {
-                        new Builders.ParameterBuilder().Add(GeoLocation.Value.Latitude),
-                        new Builders.ParameterBuilder().Add(GeoLocation.Value.Longitude)
-                    }
-                }.Write(Builders.PropertyNames.GeographicPosition, writer);
+                    new Builders.ParameterBuilder().Add(GeoLocation.Value.Latitude),
+                    new Builders.ParameterBuilder().Add(GeoLocation.Value.Longitude)
+                });
+                builder.Write(Builders.PropertyNames.GeographicPosition, writer);
             }
 
             if (LastModified.HasValue)

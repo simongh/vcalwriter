@@ -7,13 +7,19 @@
         Email,
     }
 
+    /// <summary>
+    /// Basic alarm containg required properties
+    /// </summary>
     public class Alarm
     {
         public Builders.PropertyCollection Properties { get; set; } = new();
 
         public DateTimeOffset Trigger { get; set; }
 
-        public AlarmType AlarmType { get; set; }
+        /// <summary>
+        /// Sets the type of alarm. Leave null to use a define a custom alarm
+        /// </summary>
+        public AlarmType? AlarmType { get; set; }
 
         public TimeSpan? Duration { get; set; }
 
@@ -28,8 +34,11 @@
 
             var builder = new Builders.PropertyBuilder();
 
-            builder.Value.Add(AlarmType.ToVCalString());
-            builder.Write(Builders.PropertyNames.Action, writer);
+            if (AlarmType.HasValue)
+            {
+                builder.Value.Add(AlarmType.Value.ToVCalString());
+                builder.Write(Builders.PropertyNames.Action, writer);
+            }
 
             builder.Value.Add(Trigger);
             builder.Write(Builders.PropertyNames.Trigger, writer);

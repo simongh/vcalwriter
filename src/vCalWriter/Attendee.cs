@@ -38,13 +38,21 @@ namespace vCalWriter
         public AttendeeRole? Role { get; set; }
         public AttendeeStatus? Status { get; set; }
 
+        /// <summary>
+        /// Sets the RSVP expectation. A value of false is default will not be output
+        /// </summary>
         public bool RsvpExpected { get; set; }
+
         public Uri? DelegatedTo { get; set; }
         public Uri? DelegatedFrom { get; set; }
 
         public Uri? SentBy { get; set; }
 
         public string? Name { get; set; }
+
+        /// <summary>
+        /// Sets the email address of the attendee. Required
+        /// </summary>
         public string? Email { get; set; }
 
         public ParameterCollection Parameters { get; set; } = new();

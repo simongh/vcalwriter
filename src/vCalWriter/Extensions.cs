@@ -49,5 +49,18 @@
 
         public static string ToVCalString(this AlarmType value)
             => value.ToString().ToUpper();
+
+        public static string ToVCalString(this RecurrenceFrequency value)
+            => value switch
+            {
+                RecurrenceFrequency.Seconds => "SECONDLY",
+                RecurrenceFrequency.Minutes => "MINUTELY",
+                RecurrenceFrequency.Hours => "HOURLY",
+                RecurrenceFrequency.Days => "DAILY",
+                RecurrenceFrequency.Weeks => "WEEKLY",
+                RecurrenceFrequency.Monthly => "MONTHLY",
+                RecurrenceFrequency.Years => "YEARLY",
+                _ => throw new ApplicationException("Unexpected role"),
+            };
     }
 }

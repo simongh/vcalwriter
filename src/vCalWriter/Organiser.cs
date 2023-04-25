@@ -2,6 +2,11 @@
 {
     public class Organiser
     {
+        public Builders.ParameterCollection Parameters { get; set; } = new();
+
+        /// <summary>
+        /// Sets the organisers email. Required
+        /// </summary>
         public string? Email { get; set; }
 
         public string? Name { get; set; }
@@ -29,6 +34,11 @@
                 {
                     Name = Builders.ParameterNames.CommonName,
                 }.Add(Name));
+            }
+
+            if (Parameters != null)
+            {
+                builder.Parameters.Merge(Parameters);
             }
 
             builder.Value.Add(Email);
